@@ -1,0 +1,13 @@
+properties(
+        [
+                parameters([
+                        string(defaultValue: 'uysnon', name: 'user_name', description: 'write your name..')
+                ])
+        ]
+)
+
+node {
+    stage("Hello") {
+        echo "Say hello, ${params.user_name}"
+    }
+}
