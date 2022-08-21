@@ -78,6 +78,17 @@ services:
     networks:
       - postgres
 
+  codeanalyzer-auth:
+    container_name: codeanalyzer-auth
+    image: uysnon/codeanalyzer-auth:latest
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 1G
+    networks:
+      - postgres
+
 networks:
   postgres:
     driver: bridge

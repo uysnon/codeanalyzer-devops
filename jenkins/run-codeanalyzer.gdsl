@@ -1,0 +1,21 @@
+properties(
+        [
+                parameters([
+                        string(defaultValue: '/Users/avgorkin/radik/vkr/project/codeanalyzer-devops', name: 'codeanalyzer_auth_path', description: 'path to codeanalyzer-auth app')
+                ])
+        ]
+)
+
+node {
+    stage("Set environment variables") {
+        export codeanalyzer_auth_path=${params.codeanalyzer_auth_path}:$codeanalyzer_auth_path
+    }
+
+    stage("Build") {
+        sh ./scripts/build-codeanalyzer-auth-image.sh
+    }
+
+    stage("Run") {
+        docker compose -f ../docker/docker-compose.yml up
+    }
+}
