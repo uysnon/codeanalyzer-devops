@@ -1,24 +1,24 @@
 properties(
         [
                 parameters([
-                        string(defaultValue: '/Users/avgorkin/radik/vkr/project/codeanalyzer-devops', name: 'codeanalyzer_auth_path', description: 'path to codeanalyzer-auth app')
+                        string(defaultValue: '/Users/avgorkin/radik/vkr/project/codeanalyzer-auth', name: 'codeanalyzer_auth_path', description: 'path to codeanalyzer-auth app')
                 ])
         ]
 )
 
 node {
+    checkout scm
+
     stage("Set environment variables") {
         env.codeanalyzer_auth_path = params.codeanalyzer_auth_path
     }
 
     stage("Build") {
-        sh 'pwd'
-        sh 'ls'
         sh 'chmod +x jenkins/scripts/build-codeanalyzer-auth-image.sh'
         sh 'jenkins/scripts/build-codeanalyzer-auth-image.sh'
     }
 
     stage("Run") {
-        sh 'docker compose -f ../docker/docker-compose.yml up'
+        sh 'docker compose -f ./docker/docker-compose.yml up'
     }
 }
