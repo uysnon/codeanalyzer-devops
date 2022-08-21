@@ -8,14 +8,16 @@ properties(
 
 node {
     stage("Set environment variables") {
-        export codeanalyzer_auth_path=${params.codeanalyzer_auth_path}:$codeanalyzer_auth_path
+        env.codeanalyzer_auth_path = params.codeanalyzer_auth_path
     }
 
     stage("Build") {
-        sh ./scripts/build-codeanalyzer-auth-image.sh
+        sh 'pwd'
+        sh 'chmod +x jenkins/scripts/build-codeanalyzer-auth-image.sh'
+        sh 'jenkins/scripts/build-codeanalyzer-auth-image.sh'
     }
 
     stage("Run") {
-        docker compose -f ../docker/docker-compose.yml up
+        sh 'docker compose -f ../docker/docker-compose.yml up'
     }
 }
