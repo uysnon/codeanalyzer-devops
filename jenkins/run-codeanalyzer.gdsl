@@ -13,6 +13,7 @@ node {
 
     stage("Build") {
         sh 'pwd'
+        sh 'ls'
         sh 'chmod +x jenkins/scripts/build-codeanalyzer-auth-image.sh'
         sh 'jenkins/scripts/build-codeanalyzer-auth-image.sh'
     }
