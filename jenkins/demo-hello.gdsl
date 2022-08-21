@@ -8,6 +8,6 @@ properties(
 
 node {
     stage("Hello") {
-        echo "Say hello, ${params.user_name}"
+        echo "Say hello, ${params.user_name}!"
     }
 }
