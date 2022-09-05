@@ -1,0 +1,33 @@
+version: "3.9"
+services:
+  codeanalyzer-auth:
+    container_name: codeanalyzer-auth
+    image: uysnon/codeanalyzer-auth:latest
+    ports:
+      - "81:81"
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 1G
+    networks:
+      - codeanalyzer-app
+
+  codeanalyzer-metrics:
+    container_name: codeanalyzer-metrics
+    image: uysnon/codeanalyzer-metrics:latest
+    ports:
+      - "80:80"
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 1G
+    networks:
+      - codeanalyzer-app
+
+
+
+networks:
+  codeanalyzer-app:
+    driver: bridge

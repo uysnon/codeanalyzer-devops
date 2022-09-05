@@ -1,7 +1,8 @@
 properties(
         [
                 parameters([
-                        string(defaultValue: '/Users/avgorkin/radik/vkr/project/codeanalyzer-auth', name: 'codeanalyzer_auth_path', description: 'path to codeanalyzer-auth app')
+                        string(defaultValue: '/Users/avgorkin/radik/vkr/project/codeanalyzer-auth', name: 'codeanalyzer_auth_path', description: 'path to codeanalyzer-auth app'),
+                        string(defaultValue: '/Users/avgorkin/radik/vkr/project/metrics', name: 'codeanalyzer_metrics_path', description: 'path to codeanalyzer-metrics app')
                 ])
         ]
 )
@@ -16,9 +17,12 @@ node {
     stage("Build") {
         sh 'chmod +x jenkins/scripts/build-codeanalyzer-auth-image.sh'
         sh 'jenkins/scripts/build-codeanalyzer-auth-image.sh'
+
+        sh 'chmod +x jenkins/scripts/build-codeanalyzer-metrics-image.sh'
+        sh 'jenkins/scripts/build-codeanalyzer-metrics-image.sh'
     }
 
     stage("Run") {
-        sh 'docker compose -f ./docker/docker-compose.yml up'
+        sh 'docker compose -f ./docker/docker-compose-app.yml up'
     }
 }
