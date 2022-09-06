@@ -26,8 +26,6 @@ services:
     networks:
       - codeanalyzer-app
 
-
-
 networks:
   codeanalyzer-app:
     driver: bridge

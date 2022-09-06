@@ -2,7 +2,10 @@ properties(
         [
                 parameters([
                         string(defaultValue: '/Users/avgorkin/radik/vkr/project/codeanalyzer-auth', name: 'codeanalyzer_auth_path', description: 'path to codeanalyzer-auth app'),
-                        string(defaultValue: '/Users/avgorkin/radik/vkr/project/metrics', name: 'codeanalyzer_metrics_path', description: 'path to codeanalyzer-metrics app')
+                        string(defaultValue: '/Users/avgorkin/radik/vkr/project/metrics', name: 'codeanalyzer_metrics_path', description: 'path to codeanalyzer-metrics app'),
+                        booleanParam(defaultValue: true, name: 'build_codeanalyzer_metrics', description: 'Build codeanalyzer-metrics'),
+                        booleanParam(defaultValue: true, name: 'build_codeanalyzer_auth', description: 'Build codeanalyzer-auth'),
+                        booleanParam(defaultValue: true, name: 'run', description: 'Run')
                 ])
         ]
 )
@@ -15,14 +18,19 @@ node {
     }
 
     stage("Build") {
-        sh 'chmod +x jenkins/scripts/build-codeanalyzer-auth-image.sh'
-        sh 'jenkins/scripts/build-codeanalyzer-auth-image.sh'
-
-        sh 'chmod +x jenkins/scripts/build-codeanalyzer-metrics-image.sh'
-        sh 'jenkins/scripts/build-codeanalyzer-metrics-image.sh'
+        if (params.build_codeanalyzer_metrics) {
+            sh 'chmod +x jenkins/scripts/build-codeanalyzer-metrics-image.sh'
+            sh 'jenkins/scripts/build-codeanalyzer-metrics-image.sh'
+        }
+        if (params.build_codeanalyzer_auth) {
+            sh 'chmod +x jenkins/scripts/build-codeanalyzer-auth-image.sh'
+            sh 'jenkins/scripts/build-codeanalyzer-auth-image.sh'
+        }
     }
 
     stage("Run") {
-        sh 'docker compose -f ./docker/docker-compose-app.yml up'
+        if (params.run) {
+            sh 'docker compose -f ./docker/docker-compose-app.yml up'
+        }
     }
 }
